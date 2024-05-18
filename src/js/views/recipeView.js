@@ -23,6 +23,10 @@ class RecipeView {
     
   }
 
+  addHandlerRender(handler) {
+    ['hashchange', 'load'].forEach(ev => addEventListener(ev, handler));
+  }
+
   #clear() {
     this.#parentElement.innerHTML = '';
   }
