@@ -19,8 +19,7 @@ async function controlRecipes() {
     // 2) Reanding recipe
     recipeView.render(model.state.recipe)
   } catch (error) {
-    alert(error);
-    console.error(error)
+    recipeView.renderError()
   }
 }
 
