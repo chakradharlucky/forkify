@@ -1,16 +1,17 @@
 import icons from 'url:../../img/icons.svg';
 import { Fraction } from 'fractional';
+import View from './view';
 
 class RecipeView {
-  #parentElement = document.querySelector('.recipe');
-  #data;
-  #errorMessage = 'We could not find that recipe. Please try another one!'
+  _parentElement = document.querySelector('.recipe');
+  _data;
+  _errorMessage = 'We could not find that recipe. Please try another one!'
 
   render(data) {
-    this.#data = data;
-    const markup = this.#genrateMarkup(data);
-    this.#clear();
-    this.#insertHTML(markup);
+    this._data = data;
+    const markup = this._genrateMarkup(data);
+    this._clear();
+    this._insertHTML(markup);
   }
 
   renderSpinner() {
@@ -19,11 +20,11 @@ class RecipeView {
             <use href= "${icons}#icon-loader"></use>
           </svg>
         </div> `;
-    this.#clear()
-    this.#insertHTML(markup)  
+    this._clear()
+    this._insertHTML(markup)  
   }
 
-  renderError(message = this.#errorMessage) {
+  renderError(message = this._errorMessage) {
     const markup = `
         <div class="error">
             <div>
@@ -33,8 +34,8 @@ class RecipeView {
             </div>
             <p>${message}</p>
         </div>`
-    this.#clear();
-    this.#insertHTML(markup)          
+    this._clear();
+    this._insertHTML(markup)          
   }
 
   renderMessage() {
@@ -47,23 +48,23 @@ class RecipeView {
         </div>
         <p>Start by searching for a recipe or an ingredient. Have fun!</p>
     </div>`;
-    this.#clear();
-    this.#insertHTML(markup);
+    this._clear();
+    this._insertHTML(markup);
   }
 
   addHandlerRender(handler) {
     ['hashchange', 'load'].forEach(ev => addEventListener(ev, handler));
   }
 
-  #clear() {
-    this.#parentElement.innerHTML = '';
+  _clear() {
+    this._parentElement.innerHTML = '';
   }
 
-  #insertHTML(markup) {
-    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  _insertHTML(markup) {
+    this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  #genrateMarkup(recipe) {
+  _genrateMarkup(recipe) {
     return `<figure class="recipe__fig">
           <img src=${recipe.image} alt="${recipe.title}" class="recipe__img" />
           <h1 class="recipe__title">
@@ -119,7 +120,7 @@ class RecipeView {
         <div class="recipe__ingredients">
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
-            ${recipe.ingredients.map( this.#genrateMarkupIngredient ).join('')}
+            ${recipe.ingredients.map( this._genrateMarkupIngredient ).join('')}
           </ul>
         </div>
 
@@ -143,7 +144,7 @@ class RecipeView {
         </div>`;
   }
 
-  #genrateMarkupIngredient(ing) {
+  _genrateMarkupIngredient(ing) {
     return `<li class="recipe__ingredient">
               <svg class="recipe__icon">
                 <use href="${icons}#icon-check"></use>
