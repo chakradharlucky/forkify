@@ -44,12 +44,16 @@ function contorlPagination(goto) {
   paginationView.render(model.state.search);
 }
 
-
+function contorlUpdateServings( updateTo ) {
+  model.updateServings(updateTo);
+  recipeView.render(model.state.recipe);
+}
 
 function init() {
   recipeView.addHandlerRender(controlRecipes)
   searchView.addHandlerSearch(contorlSearchRecipes);
   paginationView.addHandlerPagination(contorlPagination)
+  recipeView.addHandlerUpdateServings(contorlUpdateServings)
 }
 
 init()
