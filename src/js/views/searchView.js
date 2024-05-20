@@ -6,7 +6,7 @@ class SearchView {
     this._clearInput()
     return query
   }
-  addHandlerSerch(handler) {
+  addHandlerSearch(handler) {
     this._parentElement.addEventListener('submit', event =>{
         event.preventDefault()
         handler()
