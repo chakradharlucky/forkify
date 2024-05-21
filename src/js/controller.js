@@ -46,7 +46,7 @@ function contorlPagination(goto) {
 
 function contorlUpdateServings( updateTo ) {
   model.updateServings(updateTo);
-  recipeView.render(model.state.recipe);
+  recipeView.update(model.state.recipe);
 }
 
 function init() {

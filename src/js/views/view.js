@@ -9,6 +9,31 @@ export default class View {
     this._insertHTML(markup);
   }
 
+  update(data) {
+    if (!data) return;
+    this._data = data;
+    const newMarkup = this._genrateMarkup();
+
+    const newDOM = document.createRange().createContextualFragment(newMarkup);
+    const newElements = Array.from(newDOM.querySelectorAll('*'));
+    const curElements = Array.from(this._parentElement.querySelectorAll('*'));
+
+    newElements.forEach((ele, i) => {
+      if (
+        !ele.isEqualNode(curElements[i]) &&
+        ele.firstChild.nodeValue.trim() !== ''
+      ) {
+        curElements[i].textContent = ele.textContent;
+      }
+
+      if (!ele.isEqualNode(curElements[i])) {
+        Array.from(ele.attributes).forEach(att => {
+          curElements[i].setAttribute(att.name, att.value);
+        });
+      }
+    });
+  }
+
   renderSpinner() {
     const markup = `<div class="spinner">
           <svg>

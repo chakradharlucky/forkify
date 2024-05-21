@@ -9,9 +9,7 @@ class PaginationView extends View {
     const totalPages = Math.ceil(
       this._data.recipes.length / this._data.resultsPerPage
     );
-    console.log(totalPages);
     this.currentPage = this._data.currentPage;
-    console.log(this._data.currentPage);
     if (this.currentPage === 1 && totalPages > 1) {
       return this._genrateMarkupNextBtn();
     }
