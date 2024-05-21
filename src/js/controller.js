@@ -8,15 +8,16 @@ async function controlRecipes() {
   try {
     const id = window.location.hash.slice(1);
     if (!id) return;
-
+    
     // 0) Rendering Spinner
     recipeView.renderSpinner();
-
+    
     // 1) Loading recipe
     await model.loadRecipe(id) 
-
+    
     // 2) Reanding recipe
     recipeView.render(model.state.recipe)
+    resultView.update(model.getSearchResultPage());
   } catch (error) {
     recipeView.renderError()
   }
