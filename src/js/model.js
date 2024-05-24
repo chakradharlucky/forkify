@@ -13,6 +13,7 @@ export const state = {
     currentPage: 1,
     resultsPerPage: RESULTS_PER_PAGE
   },
+  bookmarks: [],
 
 };
 
@@ -31,6 +32,8 @@ export const loadRecipe = async function (id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients,
         }
+        // state.recipe.bookmarked = state.bookmarks.find( bookmarks => bookmarks.id === id) ? true : false
+        state.recipe.bookmarked = state.bookmarks.some( bookmarks => bookmarks.id === id) ? true : false
     } catch(error) {
         throw(error)
     }
@@ -68,3 +71,26 @@ export const updateServings = function( newServings ) {
     );
     state.recipe.servings = newServings;
 }
+
+export const addBookmark = function(recipe){
+    state.bookmarks.push(recipe)
+
+    if(recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+    localStorage.setItem('bookmarks',JSON.stringify(state.bookmarks))
+}
+
+export const deleteBookmark = function (recipe) {
+//   state.bookmarks.pop(recipe.id); don't use pop to remove a element at other then last
+    const index = state.bookmarks.findIndex( bookmarks => bookmarks.id === recipe.id)
+    state.bookmarks.splice(index,1)
+
+  if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+};
+
+function init() {
+   const storage = JSON.parse(localStorage.getItem('bookmarks'))
+   if(storage) state.bookmarks = storage
+}
+
+init()

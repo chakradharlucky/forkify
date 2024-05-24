@@ -20,8 +20,8 @@ export default class View {
 
     newElements.forEach((ele, i) => {
       if (
-        !ele.isEqualNode(curElements[i]) &&
-        ele.firstChild.nodeValue.trim() !== ''
+        !ele.isEqualNode(curElements[i]) && // ele.firstChild &&  -- > use optional chaining
+        ele.firstChild?.nodeValue.trim() !== ''
       ) {
         curElements[i].textContent = ele.textContent;
       }
