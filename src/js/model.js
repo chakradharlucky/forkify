@@ -17,23 +17,26 @@ export const state = {
 
 };
 
+const createRecipeObject = function (recipe) {
+  state.recipe = {
+    id: recipe.id,
+    title: recipe.title,
+    publisher: recipe.publisher,
+    sourceUrl: recipe.source_url,
+    image: recipe.image_url,
+    servings: recipe.servings,
+    cookingTime: recipe.cooking_time,
+    ingredients: recipe.ingredients,
+  };
+  // state.recipe.bookmarked = state.bookmarks.find( bookmarks => bookmarks.id === id) ? true : false
+  state.recipe.bookmarked = state.bookmarks.some( bookmarks => bookmarks.id === recipe.id ) ? true : false;
+};
+
 export const loadRecipe = async function (id) {
  try {
         const data = await getJSON(`${API_URL}${id}`);
         const { recipe } = data.data;
-        
-        state.recipe = {
-            id: recipe.id,
-            title: recipe.title,
-            publisher: recipe.publisher,
-            sourceUrl: recipe.source_url,
-            image: recipe.image_url,
-            servings: recipe.servings,
-            cookingTime: recipe.cooking_time,
-            ingredients: recipe.ingredients,
-        }
-        // state.recipe.bookmarked = state.bookmarks.find( bookmarks => bookmarks.id === id) ? true : false
-        state.recipe.bookmarked = state.bookmarks.some( bookmarks => bookmarks.id === id) ? true : false
+        createRecipeObject(recipe)
     } catch(error) {
         throw(error)
     }
@@ -94,3 +97,22 @@ function init() {
 }
 
 init()
+
+export async function uploadRecipe(newRecipe) {
+    const ingredients = Object.entries(newRecipe).filter( entry => entry[0].startsWith('ingredient') && entry[1] !== '')
+    .map(ing => {
+        const ingArr = ing[1].replaceAll(' ', '').split(',');
+        if(ingArr != 3) throw new Error('Wrong ingredient fromat! Please use the correct format :)')
+        const [quantity, unit, description] = ingArr
+        return { quantity: quantity ? +quantity : null, unit, description };
+    })
+    const recipe = {
+      title: recipe.title,
+      publisher: newRecipe.publisher,
+      source_url: newRecipe.sourceUrl,
+      image_url: newRecipe.image,
+      servings: +newRecipe.servings,
+      cooking_time: +newRecipe.cookingTime,
+      ingredients,
+    };
+}
