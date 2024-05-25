@@ -40,6 +40,7 @@ async function controlSearchRecipes() {
 
     paginationView.render(model.state.search);
   } catch (error) {
+    resultView.renderError()
     console.log(error)
   }
 }

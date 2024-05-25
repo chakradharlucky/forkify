@@ -33,7 +33,7 @@ const createRecipeObject = function (recipe) {
 
 export const loadRecipe = async function (id) {
  try {
-        const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
+        const data = await AJAX(`${API_URL}${id}?key={KEY}`);
         const { recipe } = data.data;
         createRecipeObject(recipe)
     } catch(error) {
@@ -46,6 +46,7 @@ export const loadSearchResults = async function(query) {
         state.search.currentPage = 1
         state.search.query = query
         const { recipes } = (await AJAX(`${API_URL}?search=${query}&key=${KEY}`)).data;
+        if(!recipes.length) throw new Error()
         state.search.recipes = recipes.map(recipe => {
             return {
               id: recipe.id,
