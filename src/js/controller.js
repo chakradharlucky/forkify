@@ -5,6 +5,7 @@ import resultView from './views/resultView';
 import paginationView from './views/paginationView';
 import bookmarksView from './views/bookmarksView';
 import addRecipeView from './views/addRecipeView';
+import { MODEL_CLOSE_SEC }from './config'
 
 async function controlRecipes() {
   try {
@@ -66,7 +67,15 @@ function controlbookmarks() {
 
 async function controlUploadRecipe(newRecipe) {
   try {
+    addRecipeView.renderSpinner()
     await model.uploadRecipe(newRecipe);
+    bookmarksView.render(model.state.bookmarks)
+    recipeView.render(model.state.recipe)
+    addRecipeView.renderMessage()
+    window.history.pushState(null,'',`#${model.state.recipe.id}`)
+    setTimeout(function () {
+      addRecipeView.toggleWindow();
+    }, MODEL_CLOSE_SEC*1000);
   } catch (error) {
     addRecipeView.renderError(error)
   }

@@ -66,7 +66,7 @@ export default class View {
               <use href="${icons}#icon-smile"></use>
             </svg>
         </div>
-        <p>Start by searching for a recipe or an ingredient. Have fun!</p>
+        <p>${this._message}</p>
     </div>`;
     this._clear();
     this._insertHTML(markup);
